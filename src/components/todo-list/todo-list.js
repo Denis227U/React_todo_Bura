@@ -4,7 +4,7 @@ import TodoListItem from "./../todo-list-item";
 
 import "./todo-list.css";
 
-const TodoList = ({ todos, onDeleted }) => {
+const TodoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
   //   const firstEl = (
   //     <li>
   //       <TodoListItem label={todos[0].label} important={todos[0].important} />
@@ -19,7 +19,12 @@ const TodoList = ({ todos, onDeleted }) => {
         {/* <TodoListItem label={item.label} important={item.important} /> */}
 
         {/* упрощенная запись со spread object ES8 */}
-        <TodoListItem {...itemProps} onDeleted={() => onDeleted(id)} />
+        <TodoListItem
+          {...itemProps}
+          onDeleted={() => onDeleted(id)}
+          onToggleImportant={() => onToggleImportant(id)}
+          onToggleDone={() => onToggleDone(id)}
+        />
       </li>
     );
   });

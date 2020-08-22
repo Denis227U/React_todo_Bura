@@ -2,9 +2,12 @@ import React from "react";
 import "./todo-list-item.css";
 
 export default class TodoListItem extends React.Component {
-  constructor() {
-    super();
+  // lesson 42 constructor больше не нужен
+  // constructor() {
+  //   super();
 
+  // lesson 42 onLabelClick и onMarkImportant больше не нужны
+  /*
     this.onLabelClick = () => {
       // вариант если нужно просто поменять состояние(например c false на true)
       // this.setState({
@@ -34,12 +37,14 @@ export default class TodoListItem extends React.Component {
         };
       });
     };
+    */
 
-    this.state = {
+  // lesson 42 state больше не нужен
+  /* this.state = {
       done: false,
       important: false,
-    };
-  }
+    }; */
+  // }
 
   // 1вариант с bind
   // onLabelClick() {
@@ -48,9 +53,16 @@ export default class TodoListItem extends React.Component {
 
   render() {
     // this.props; то место откуда можно получить текущее свойство
-    const { label, onDeleted } = this.props;
+    const {
+      label,
+      onDeleted,
+      onToggleImportant,
+      onToggleDone,
+      done,
+      important,
+    } = this.props;
     // перенесем импортант из props в state
-    const { done, important } = this.state;
+    // const { done, important } = this.state; //lesson 42 теперь берем из пропсов
 
     let classNames = "todo-list-item";
     if (done) {
@@ -73,7 +85,7 @@ export default class TodoListItem extends React.Component {
           className="todo-list-item-label"
           // 1вариант с bind
           // onClick={this.onLabelClick.bind(this)}
-          onClick={this.onLabelClick}
+          onClick={onToggleDone}
         >
           {label}
         </span>
@@ -90,7 +102,7 @@ export default class TodoListItem extends React.Component {
           <button
             type="button"
             className="btn btn-outline-success btn-sm"
-            onClick={this.onMarkImportant}
+            onClick={onToggleImportant}
           >
             <i className="fa fa-exclamation" />
           </button>
