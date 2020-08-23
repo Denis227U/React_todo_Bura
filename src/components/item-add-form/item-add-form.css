@@ -5,6 +5,10 @@
     margin-top: 20px;
 }
 
+.add-item-group input {
+    margin-right: 5px;
+}
+
 .add-item-group button {
     width: 160px;
 }
