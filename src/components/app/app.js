@@ -23,6 +23,8 @@ export default class App extends Component {
         // { label: "Make Awesome App", important: false, id: 2 },
         // { label: "Have a lunch", important: false, id: 3 },
       ],
+      term: "",
+      filter: "all", // active, all, done
     };
 
     this.deleteItem = (id) => {
@@ -108,6 +110,14 @@ export default class App extends Component {
         };
       });
     };
+
+    this.onSearchChange = (term) => {
+      this.setState({ term });
+    };
+
+    this.onFilterChange = (filter) => {
+      this.setState({ filter });
+    };
   }
 
   createTodoItem(label) {
@@ -119,22 +129,53 @@ export default class App extends Component {
     };
   }
 
+  search(items, term) {
+    if (term.length === 0) {
+      return items;
+    }
+
+    return items.filter((item) => {
+      return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    });
+  }
+
+  filter(items, filter) {
+    switch (filter) {
+      case "all":
+        return items;
+
+      case "active":
+        return items.filter((item) => !item.done);
+
+      case "done":
+        return items.filter((item) => item.done);
+
+      default:
+        return items;
+    }
+  }
+
   render() {
-    // lesson 43
-    const { todoData } = this.state;
+    // lesson 43    // term - lesson 47
+    const { todoData, term, filter } = this.state;
     const doneCount = todoData.filter((el) => el.done).length;
     const todoCount = todoData.length - doneCount;
+
+    const visibleItems = this.filter(this.search(todoData, term), filter);
 
     return (
       <div className="container">
         <AppHeader toDo={todoCount} done={doneCount} />
         <div className="top-panel d-flex">
-          <SearchPanel />
-          <ItemStatusFilter />
+          <SearchPanel onSearchChange={this.onSearchChange} />
+          <ItemStatusFilter
+            filter={filter}
+            onFilterChange={this.onFilterChange}
+          />
         </div>
 
         <TodoList
-          todos={todoData}
+          todos={visibleItems}
           onDeleted={this.deleteItem}
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone}
